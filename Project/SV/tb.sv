@@ -1,3 +1,4 @@
+
 module datapath ();
 
    logic  grid;
@@ -8,14 +9,8 @@ module datapath ();
    integer desc3;
    
    // Instantiate DUT
-   dfatapath dut (grid, reset, left, right, LA, LB, LC, RA, RB, RC);   
+   dfatapath dut (grid, reset, grid_evolve);   
    
-   // Setup the clock to toggle every 1 time units 
-   initial 
-     begin	
-	clk = 1'b1;
-	forever #5 clk = ~clk;
-     end
 
    initial
      begin
@@ -25,13 +20,12 @@ module datapath ();
 	#700 $finish;		
      end
 
-   always 
+    always 
      begin
 	desc3 = handle3;
 	#5 $fdisplay(desc3, "%b %b || %b %b %b || %b || %b %b %b", 
-		     reset, left, LA, LB, LC, right, RA, RB, RC);
+		     reset, grid, grid_evolve);
      end   
-   
    initial 
      begin      
 	#0   reset = 1'b1;
