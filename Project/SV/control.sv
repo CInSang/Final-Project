@@ -1,42 +1,46 @@
-module control (clk, start);
 
-   input logic  clk;
-   input logic start;
 
-   typedef enum 	logic [63:0] {grid, grid_evolve} statetype;
-   statetype state, nextstate;
-   
+module control (clk, start, Mux, grid, HDMI);
+
+  input logic  clk;
+  input logic start;
+  input logic Mux;  
+  input logic grid;
+  output logic HDMI;
+  
+  assign grid = 64'h0412_6424_0034_3C28;
+  
    // state register
-   always_ff @(posedge clk, posedge reset)
-     if (reset) state <= grid;
-     else       state <= nextstate;
-   
-   // next state logic
-   always_comb
-     case (state)
-       grid: begin	
-  evolve3<= 1'b0;
-  evolve5 <= 1'b0;
-  evolve8<= 1'b0;
-     
-	  if (grid & grid_evolve) nextstate <= grid_evolve;
-    else if (grid) nextstate <= grid_evolve;
-    else if (grid_evolve) nextstate <= grid;
-	  else   nextstate <= grid;
-       end
-       grid: begin 	
-    grid <= 1'b1;
-	  nextstate <= grid_evolve;
-       end
-       grid_evolve: begin  	
-    evolve3<= 1'b1;
-      end
-       default: begin
-	  evolve3 <= 1'b0;
-    evolve5 <= 1'b0;
-    evolve8 <= 1'b0;
-	  nextstate <= grid;
-       end
-     endcase
+  always_ff @(posedge clk, posedge reset)
+   if (reset) 
+      HDMI <= next_grid;
+   else      
+      HDMI <= grid;
+	//The next state logic
+16		always @*
+17			if(load)
+18				HDMI_next = grid_evolve;
+19			else if ()
+20				HDMI_next = HDMI;
+21			else if ()
+22				HDMI_next = HDMI + 8'h01;
+23			else 
+24				HDMI_next = HDMI - 8'h01;
+
    
 endmodule
+
+
+
+ 
+
+
+module Mux(Start, Seed, HDMI, Datapath);
+  input logic Start:
+  input logic Seed;
+  input logic HDMI;
+  output logic Datapath;
+
+  assign Datapath = start ? HDMI : Seed;
+
+  endmodule

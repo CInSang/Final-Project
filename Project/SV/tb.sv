@@ -1,42 +1,30 @@
+`timescale 1ns / 1ps
+module tb ();
 
-module datapath ();
-
-   logic  grid;
-   logic grid_evolve;
-
+   logic       clk;   
+   logic       rst;
+   logic       clk_en;      
    
-   integer handle3;
-   integer desc3;
-   
-   // Instantiate DUT
-   dfatapath dut (grid, reset, grid_evolve);   
-   
+   integer     handle3;  
+   integer 	 desc3;    
 
+   // instantiate device under test   
+   clk_div dut (clk, rst, clk_en);
+
+   // 2 ns clock
+   initial 
+     begin	
+	clk = 1'b1;
+	forever #10 clk = ~clk;
+     end
+
+   // Give reset signal for clock enable
    initial
      begin
-	// Gives output file name
-	handle3 = $fopen("fsm.out");
-	// Tells when to finish simulation
-	#700 $finish;		
-     end
+	// Initialization of board (X is going)
+	#0   rst = 1'b1;
+	#100 rst = 1'b0;
 
-    always 
-     begin
-	desc3 = handle3;
-	#5 $fdisplay(desc3, "%b %b || %b %b %b || %b || %b %b %b", 
-		     reset, grid, grid_evolve);
-     end   
-   initial 
-     begin      
-	#0   reset = 1'b1;
-	#10  reset = 1'b0;	
-	#0   right = 1'b1;
-     #0   left = 1'b1;
-	#30  right = 1'b0;
-     #0   left = 1'b1;
-	#30  left = 1'b0;
-     #0   right = 1'b1;
-     #0   left = 1'b0;
      end
-
-endmodule 
+   
+endmodule // tb
