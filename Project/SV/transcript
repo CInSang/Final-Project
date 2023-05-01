@@ -1,0 +1,7 @@
+# vsim -c control.do 
+# Start time: 14:22:47 on Apr 21,2023
+# ** Error (suppressible): (vsim-19) Failed to access library 'control' at "control".
+# No such file or directory. (errno = ENOENT)
+# Error loading design
+# End time: 14:22:47 on Apr 21,2023, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
