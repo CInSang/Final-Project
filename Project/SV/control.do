@@ -37,14 +37,14 @@ view wave
 
 -- display input and output signals as hexidecimal values
 # Diplays All Signals recursively
-# add wave -hex -r /stimulus/*
-add wave -noupdate -divider -height 32 "FSM"
-add wave -hex /stimulus/dut/HDMI
-add wave -hex /stimulus/dut/reset
-add wave -hex /stimulus/dut/clk
-add wave -hex /stimulus/dut/start
-add wave -hex /stimulus/dut/grid
-add wave -hex /stimulus/dut/grid_evolve
+add wave -hex -r /stimulus/*
+#add wave -noupdate -divider -height 32 "FSM"
+#add wave -hex /stimulus/dut/HDMI
+#add wave -hex /stimulus/dut/reset
+#add wave -hex /stimulus/dut/clk
+#add wave -hex /stimulus/dut/start
+#add wave -hex /stimulus/dut/grid
+#add wave -hex /stimulus/dut/grid_evolve
 add list -hex -r /stimulus/*
 add log -r /*
 -- Set Wave Output Items 

@@ -53,15 +53,28 @@ module top_demo
   logic [16:0] CURRENT_COUNT;
   logic [16:0] NEXT_COUNT;
   logic        smol_clk;
-   
+  logic [63:0] HDMI;
+  logic [63:0] seed;
+  logic  start;
+  logic  reset;
+    assign start = sw[0];
+    assign reset = btn[0];
+    clk_div divider(sysclk_125mhz, reset, clk_div);
   // Place Conway Game of Life instantiation here
- 
+    control dut(
+        .start(start),
+        .seed(64'h0412_6424_0034_3C28),
+        .clk(smol_clk),
+        .reset(reset),
+        .HDMI(HDMI)
+        );
+        
   // HDMI
   // logic hdmi_out_en;
   //assign hdmi_out_en = 1'b0;
-  hdmi_top test (n2, sysclk_125mhz, hdmi_d_p, hdmi_d_n, hdmi_clk_p, 
+  hdmi_top test (HDMI, sysclk_125mhz, hdmi_d_p, hdmi_d_n, hdmi_clk_p, 
 		         hdmi_clk_n, hdmi_cec, hdmi_sda, hdmi_scl, hdmi_hpd);
-  
+  /*
   // 7-segment display
   segment_driver driver(
   .clk(smol_clk),
@@ -89,5 +102,21 @@ module top_demo
 
   // Creation of smaller clock signal from counters
   assign smol_clk = CURRENT_COUNT == 17'd100000 ? 1'b1 : 1'b0;
-
+*/
 endmodule
+
+
+module clk_div (input logic clk, input logic rst, output logic clk_en);
+
+   logic [23:0] clk_count;
+
+   always_ff @(posedge clk) begin
+      if (rst)
+	clk_count <= 24'h0;
+      else
+	clk_count <= clk_count + 1;
+   end   
+   
+   assign clk_en = clk_count[23];
+   
+endmodule // clk_div
