@@ -52,7 +52,7 @@ module top_demo
 
   logic [16:0] CURRENT_COUNT;
   logic [16:0] NEXT_COUNT;
-  logic        smol_clk;
+  logic        clk_div;
   logic [63:0] HDMI;
   logic [63:0] seed;
   logic  start;
@@ -63,8 +63,8 @@ module top_demo
   // Place Conway Game of Life instantiation here
     control dut(
         .start(start),
-        .seed(64'h0412_6424_0034_3C28),
-        .clk(smol_clk),
+        .seed(64'h0000_00e0_0000_0000),
+        .clk(clk_div),
         .reset(reset),
         .HDMI(HDMI)
         );
